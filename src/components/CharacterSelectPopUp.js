@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-function Header() {
+function CharacterSelectPopUp() {
   return (
     <StyledHeader className="header">
       
@@ -14,4 +14,4 @@ const StyledHeader = styled.div`
 
 `
 
-export default Header;
+export default CharacterSelectPopUp;
