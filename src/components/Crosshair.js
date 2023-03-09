@@ -1,18 +1,41 @@
 import React from "react";
 import styled from "styled-components";
-function CrossHair({coords}) {
+function CrossHair({currentRelativeMouseLocation}) {
 
   return (
-    <StyledCrosshair></StyledCrosshair>
+    <StyledCrosshair relativeLovation={currentRelativeMouseLocation}>
+      <CenterPoint />
+    </StyledCrosshair>
   );
 }
 
-const StyledCrosshair = styled.div`
-    border-radius: 50%;
-    border: 1px solid black;
-    background-color: #0000003b;
-    width: 50px;
-    height: 50px;
+const StyledCrosshair = styled.div.attrs((props) => ({
+  /*Componesate the width and height of the crosshair 
+  (25px relative to percents) so that the cursor is in 
+  the middle of crosshair. 
+  (otherwise the cursor is in the top left corner)*/
+  style: {
+      top: props.relativeLovation.y - 1 + '%',
+      left: props.relativeLovation.x - 0.7 + '%',
+  },
+}))`
+display: flex;
+justify-content: center;
+align-items: center;
+pointer-events: none;
+position: absolute;
+border-radius: 50%;
+border: 3px solid black;
+background-color: #0000003b;
+width: 50px;
+height: 50px;
+`
+
+const CenterPoint = styled.div`
+border-radius: 50%;
+width: 5px;
+height: 5px;
+background-color: red;
 `
 
 export default CrossHair;
