@@ -3,17 +3,26 @@ import styled from 'styled-components';
 import CrossHair from "../../components/Crosshair";
 import CharacterSelectPopUp from "../../components/CharacterSelectPopUp";
 import { useParams } from "react-router-dom";
+import { getDownloadURL, getStorage, ref } from "firebase/storage";
 
-function Game({ coords, image }) {
+function Game({ app }) {
 
-    const {level} = useParams();
-    const [currentRelativeMouseLocation, setCurrentRelativeMouseLocation] = React.useState({ x: 2, y: 3 });
+    const { level } = useParams();
+    const storage = getStorage(app)
+    const [currentRelativeMouseLocation, setCurrentRelativeMouseLocation] = React.useState({ x: 1, y: 1 });
     const [isClicked, setIsClicked] = React.useState(false)
     const [isPopUpOpen, setIsPopUpOpen] = React.useState(false)
+    const [image, setImage] = React.useState()
 
     React.useEffect(() => {
-        console.log(level)
+        getLevelImage();
     }, [])
+
+    async function getLevelImage() {
+        const imgRef = ref(storage, `level-images/level${level}.jpg`)
+        const url = await getDownloadURL(imgRef);
+        setImage(url)
+    }
 
     function handleClick() {
         setIsClicked(true)
@@ -62,5 +71,7 @@ const ImageContainer = styled.div`
 
 const Image = styled.img`
   border: 1px solid black;
+  width: 100vw;
+  height: 100vh;
 `
 export default Game;

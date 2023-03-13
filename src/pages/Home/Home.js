@@ -49,6 +49,7 @@ margin-top: 50px;
 display: flex;
 gap: 50px
 `
+
 const LevelSelectContainer = styled(Link)`
 cursor: pointer;
 width: 400px;
@@ -63,10 +64,12 @@ position: relative;
    box-shadow: 0px 0px 8px black;
 }
 `
+
 const LevelImg = styled.img`
 width: 100%;
 height: 100%;
 `
+
 const LevelName = styled.div`
 color: white;
 width: 100%;
