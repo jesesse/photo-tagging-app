@@ -1,5 +1,6 @@
 import React from "react";
 import styled from 'styled-components';
+import { Link } from "react-router-dom";
 import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
 
 function Home({ app }) {
@@ -19,32 +20,45 @@ function Home({ app }) {
     }
 
     return (
-        <Container>
-            {imgURLs.map((url, index) => {
-                return(
-                <LevelSelectContainer key={index}>
-                    <LevelImg src={url}></LevelImg>
-                    <LevelName>Level {index + 1}</LevelName>
-                </LevelSelectContainer>)
-            })}
-        </Container>
+        <HomePage>
+            <h1>LEVEL SELECT</h1>
+            <LevelSelectWrapper>
+                {imgURLs.map((url, index) => {
+                    return(
+                    <LevelSelectContainer to={`/level/${index + 1}`} key={index}>
+                        <LevelImg src={url}></LevelImg>
+                        <LevelName>Level {index + 1}</LevelName>
+                    </LevelSelectContainer>)
+                })}
+            </LevelSelectWrapper>
+        </HomePage>
     );
 }
 
-const Container = styled.div`
+const HomePage = styled.div`
+padding-top: 100px;
 display: flex;
-gap: 80px;
+flex-flow: column;
+align-items: center;
+min-height: 100vh;
+background-color: #d1c2ae;
 `
-const LevelSelectContainer = styled.div`
+
+const LevelSelectWrapper = styled.div`
+margin-top: 50px;
+display: flex;
+gap: 50px
+`
+const LevelSelectContainer = styled(Link)`
 cursor: pointer;
-width: 500px;
-height: 300px;
+width: 400px;
+height: 250px;
 display: flex;
 justify-content: center;
 border: 1px solid black;
 position: relative;
 &:hover{
-   border: 4px solid black;
+   border: 2px solid black;
    background-color: aliceblue;
    box-shadow: 0px 0px 8px black;
 }

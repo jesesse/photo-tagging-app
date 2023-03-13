@@ -2,14 +2,17 @@ import React from "react";
 import styled from 'styled-components';
 import CrossHair from "../../components/Crosshair";
 import CharacterSelectPopUp from "../../components/CharacterSelectPopUp";
+import { useParams } from "react-router-dom";
 
 function Game({ coords, image }) {
 
+    const {level} = useParams();
     const [currentRelativeMouseLocation, setCurrentRelativeMouseLocation] = React.useState({ x: 2, y: 3 });
     const [isClicked, setIsClicked] = React.useState(false)
     const [isPopUpOpen, setIsPopUpOpen] = React.useState(false)
 
     React.useEffect(() => {
+        console.log(level)
     }, [])
 
     function handleClick() {
