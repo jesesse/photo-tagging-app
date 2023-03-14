@@ -10,10 +10,6 @@ function CrossHair({cursorLocation}) {
 }
 
 const StyledCrosshair = styled.div.attrs((props) => ({
-  /*Componesate the width and height of the crosshair 
-  (25px relative to percents) so that the cursor is in 
-  the middle of crosshair. 
-  (otherwise the cursor is in the top left corner)*/
   style: {
       top: props.relativeLovation.y - 25  + 'px',
       left: props.relativeLovation.x - 25  + 'px',
