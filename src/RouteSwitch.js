@@ -10,7 +10,6 @@ function RouteSwitch({ app }) {
 
   return (
     <BrowserRouter>
-    <Header></Header>
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/level/:level" element={<Game app={app} />}

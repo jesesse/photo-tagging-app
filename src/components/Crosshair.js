@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-function CrossHair({currentRelativeMouseLocation}) {
+function CrossHair({cursorLocation}) {
 
   return (
-    <StyledCrosshair relativeLovation={currentRelativeMouseLocation}>
+    <StyledCrosshair relativeLovation={cursorLocation}>
       <CenterPoint />
     </StyledCrosshair>
   );
@@ -15,8 +15,8 @@ const StyledCrosshair = styled.div.attrs((props) => ({
   the middle of crosshair. 
   (otherwise the cursor is in the top left corner)*/
   style: {
-      top: props.relativeLovation.y - 1 + '%',
-      left: props.relativeLovation.x - 0.7 + '%',
+      top: props.relativeLovation.y - 25  + 'px',
+      left: props.relativeLovation.x - 25  + 'px',
   },
 }))`
 display: flex;

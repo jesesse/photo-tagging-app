@@ -22,8 +22,8 @@ const StyledCharacterPopUp = styled.div`
   border: 1px solid black;
   background-color: rgb(0 0 0 / 75%);
   position: absolute;
-  top: ${props => props.currentLocation.y + 1 + "%"};
-  left: ${props => props.currentLocation.x + 1 + "%"};
+  top: ${props => props.currentLocation.y + 20 + "px"};
+  left: ${props => props.currentLocation.x + 20 + "px"};
 
 `
 
