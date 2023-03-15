@@ -3,7 +3,7 @@ import styled from "styled-components";
 function CrossHair({cursorLocation}) {
 
   return (
-    <StyledCrosshair relativeLovation={cursorLocation}>
+    <StyledCrosshair location={cursorLocation}>
       <CenterPoint />
     </StyledCrosshair>
   );
@@ -11,8 +11,8 @@ function CrossHair({cursorLocation}) {
 
 const StyledCrosshair = styled.div.attrs((props) => ({
   style: {
-      top: props.relativeLovation.y - 25  + 'px',
-      left: props.relativeLovation.x - 25  + 'px',
+      top: props.location.y - 25  + 'px',
+      left: props.location.x - 25  + 'px',
   },
 }))`
 display: flex;

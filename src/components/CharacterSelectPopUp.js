@@ -2,9 +2,17 @@ import React from "react";
 import styled from "styled-components";
 
 function CharacterSelectPopUp({ currentLocation, characters, handleCharacterSelectClick }) {
+  
+  const newArrayDataOfOjbect = Object.entries(characters).map((e) => ( { [e[0]]: e[1] } ));
+  console.log(newArrayDataOfOjbect)
+  const characterList = [];
+  for(const characterName in characters){
+    if (characters[characterName].found) continue;
+    characterList.push(characterName)
+  }
 
-  const characterList = characters.map(character => {
-    return (
+  const characterElements = characterList.map(character => {
+   return (
       <StyledDiv key={character} onClick={(e) => handleCharacterSelectClick(e.target.textContent)}>
         {character}
       </StyledDiv>)
@@ -12,7 +20,7 @@ function CharacterSelectPopUp({ currentLocation, characters, handleCharacterSele
 
   return (
     <StyledCharacterPopUp currentLocation={currentLocation}>
-      {characterList}
+      {characterElements}
     </StyledCharacterPopUp>
   );
 }

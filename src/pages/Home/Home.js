@@ -9,14 +9,14 @@ function Home({ app }) {
     const [imgURLs, setImgURLs] = React.useState([])
 
     React.useEffect(() => {
-        getlevelImageURLs()
+        getlevelImageURLs().then(urls => setImgURLs(urls))
     }, [])
 
     async function getlevelImageURLs() {
         const listRef = ref(storage, 'level-images')
         const list = await listAll(listRef);
         let urls = await Promise.all(list.items.map(item => ((getDownloadURL(item)))))
-        setImgURLs(urls)
+        return (urls)
     }
 
     return (
