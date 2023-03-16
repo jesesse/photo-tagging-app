@@ -18,6 +18,7 @@ border: 3px dashed black;
 background-color: #32cb0069;
 width: 75px;
 height: 75px;
+cursor: auto;
 `
 
 export default CharacterFoundMarker;

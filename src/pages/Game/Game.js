@@ -17,13 +17,18 @@ function Game({ app }) {
 
     const { level } = useParams();
     const [cursorLocation, setCursorLocation] = React.useState({ x: 1, y: 1 });
+    const [clickedLocation, setClickedlocation] = React.useState()
     const [isClicked, setIsClicked] = React.useState(false)
     const [isCharacterSelectPopUpOpen, setIsCharacterSelectPopUpOpen] = React.useState(false)
     const [isWrongAnswerPopUpOpen, setIsWrongAnswerPopUpOpen] = React.useState(false)
+    const [isCorrectAnswerPopUpOpen, setIsCorrectAnswerPopUpOpen] = React.useState(false)
     const [isVictoryPopUpOpen, setIsVictoryPopUpOpen] = React.useState(false)
     const [imageURL, setImageURL] = React.useState();
     const [characters, setCharacters] = React.useState();
     const [foundCharacters, setFoundCharacters] = React.useState([])
+    const [guessedCharacter, seGuessedCharacter] = React.useState(null)
+    const [isTimerOn, setIsTimerOn] = React.useState(false)
+    const [timer, setTimer] = React.useState(0);
 
 
     React.useEffect(() => {
@@ -31,15 +36,28 @@ function Game({ app }) {
         getCharacters().then(characters => {
             setCharacters(characters)
         })
+        setIsTimerOn(true)
     }, [])
 
     React.useEffect(() => {
-        console.log(foundCharacters.length)
-        console.log(_.size(characters))
+        let interval
+        if (isTimerOn) {
+            interval = setInterval(() => {
+                setTimer(prev => prev + 1);
+            }, 1000);
+        } else clearInterval(interval)
+
+        return () => clearInterval(interval);
+
+    }, [isTimerOn])
+    
+    React.useEffect(() => {
         if (!(_.size(characters) === 0) && foundCharacters.length === _.size(characters)) {
+            setIsTimerOn(false)
             setIsVictoryPopUpOpen(true)
         }
     }, [characters])
+
 
     async function getCharacters() {
         const characterCoordsRef = doc(db, "coordinates", "level1");
@@ -59,12 +77,17 @@ function Game({ app }) {
             setIsCharacterSelectPopUpOpen(false)
         } else {
             setIsClicked(true)
+            setClickedlocation(cursorLocation)
             setIsCharacterSelectPopUpOpen(true)
         }
     }
 
     function handleCharacterSelectClick(characterName) {
+        characterName.toLowerCase();
+        seGuessedCharacter(characterName)
         if (checkAnswer(characterName)) {
+            setIsCorrectAnswerPopUpOpen(true);
+            setTimeout(() => { setIsCorrectAnswerPopUpOpen(false) }, 2000)
             setCharacters(prev => {
                 prev[characterName].found = true;
                 return { ...prev };
@@ -72,7 +95,7 @@ function Game({ app }) {
             setFoundCharacters(prev => prev.concat(characters[characterName]))
         } else {
             setIsWrongAnswerPopUpOpen(true);
-            setTimeout(()=>{setIsWrongAnswerPopUpOpen(false)}, 2000)
+            setTimeout(() => { setIsWrongAnswerPopUpOpen(false) }, 2000)
         }
         setIsClicked(false)
         setIsCharacterSelectPopUpOpen(false)
@@ -87,11 +110,13 @@ function Game({ app }) {
 
     function handleHover(e) {
         if (isClicked) return;
-        setCursorLocation({ x: e.pageX, y: e.pageY })
+        setCursorLocation({ x: e.pageX, y: e.pageY - 75 })
     }
+
 
     return (
         <GamePage>
+            <Header timer={timer} isTimerOn={isTimerOn}></Header>
             <ImageContainer isClicked={isClicked}>
                 <Image
                     onMouseMove={(e) => { handleHover(e) }}
@@ -106,11 +131,14 @@ function Game({ app }) {
                         characters={characters}
                         handleCharacterSelectClick={handleCharacterSelectClick} />
                 }
+                {isCorrectAnswerPopUpOpen &&
+                    <CorrectAnswerPopUp clickedLocation={clickedLocation}>You found {guessedCharacter}!</CorrectAnswerPopUp>
+                }
                 {isWrongAnswerPopUpOpen &&
-                    <WrongAnswerPopUp location={cursorLocation}>Wrong Answer, try again!</WrongAnswerPopUp>
+                    <WrongAnswerPopUp clickedLocation={clickedLocation}>No {guessedCharacter} there, try again!</WrongAnswerPopUp>
                 }
                 {isVictoryPopUpOpen &&
-                    <VictoryPopUp />
+                    <VictoryPopUp timer={timer} />
                 }
                 {foundCharacters.map((char, index) => {
                     return (<CharacterFoundMarker key={index} location={char}></CharacterFoundMarker>)
@@ -125,8 +153,6 @@ function Game({ app }) {
 const GamePage = styled.div`
 `
 
-
-
 const ImageContainer = styled.div`
   cursor: ${props => props.isClicked ? 'pointer' : 'none'};
   position: relative;
@@ -134,18 +160,34 @@ const ImageContainer = styled.div`
   height: min-content;
 `
 const WrongAnswerPopUp = styled.div`
-  background-color: aliceblue;
-  font-size: 2rem;
+background-color: aliceblue;
+border: 1px solid black;
+border-radius: 10px;
+padding: 10px;
+  font-size: 1.2rem;
   font-weight: 400;
   text-decoration: underline;
   color: red;
   position: absolute;
-  top: ${props => props.location.y - 70 + 'px'};
-  left: ${props => props.location.x - 150 + 'px'}
+  top: ${props => props.clickedLocation.y - 80 + 'px'};
+  left: ${props => props.clickedLocation.x +  'px'}
+`
+
+const CorrectAnswerPopUp = styled.div`
+  padding: 10px;
+  background-color: aliceblue;
+  border: 1px solid black;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  font-weight: 400;
+  text-decoration: underline;
+  color: green;
+  position: absolute;
+  top: ${props => props.clickedLocation.y - 80 + 'px'};
+  left: ${props => props.clickedLocation.x + 'px'}
 `
 
 const Image = styled.img`
-  border: 1px solid black;
   width: 1920px;
   height: 1080px
 `

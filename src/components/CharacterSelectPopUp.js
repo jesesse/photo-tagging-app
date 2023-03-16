@@ -13,8 +13,8 @@ function CharacterSelectPopUp({ currentLocation, characters, handleCharacterSele
 
   const characterElements = characterList.map(character => {
    return (
-      <StyledDiv key={character} onClick={(e) => handleCharacterSelectClick(e.target.textContent)}>
-        {character}
+      <StyledDiv key={character} onClick={(e) => handleCharacterSelectClick(e.target.textContent.toLowerCase())}>
+        {character.charAt(0).toUpperCase() + character.slice(1)}
       </StyledDiv>)
   })
 
@@ -27,8 +27,7 @@ function CharacterSelectPopUp({ currentLocation, characters, handleCharacterSele
 
 const StyledCharacterPopUp = styled.div`
   color: white;
-  border: 1px solid black;
-  background-color: rgb(0 0 0 / 75%);
+
   position: absolute;
   top: ${props => props.currentLocation.y + 20 + "px"};
   left: ${props => props.currentLocation.x + 20 + "px"};
@@ -36,8 +35,10 @@ const StyledCharacterPopUp = styled.div`
 `
 
 const StyledDiv = styled.div`
-  border: 1px solid black;
-  font-size: 2rem;
+  background-color: rgb(0 0 0 / 75%);
+  border-bottom: 1px solid white;
+  border-radius: 10px;
+  font-size: 1.5rem;
   padding: 10px 20px;
 &:hover {
     cursor: pointer;

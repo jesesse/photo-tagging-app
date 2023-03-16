@@ -25,6 +25,7 @@ border: 3px solid black;
 background-color: #0000003b;
 width: 50px;
 height: 50px;
+z-index: 500;
 `
 
 const CenterPoint = styled.div`
