@@ -34,7 +34,9 @@ const StyledVictoryPopUp = styled.div`
   top: 0;
   bottom: 0;
   margin: auto;
-  background-color: rgba(199, 158, 199, 0.7);
+  background-color: rgba(199, 158, 199, 1);
+  border: 1px solid black;
+  border-radius: 10px;
   z-index: 600;
   cursor: auto;
 `

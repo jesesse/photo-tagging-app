@@ -160,13 +160,12 @@ const ImageContainer = styled.div`
   height: min-content;
 `
 const WrongAnswerPopUp = styled.div`
-background-color: aliceblue;
-border: 1px solid black;
-border-radius: 10px;
-padding: 10px;
+  background-color: aliceblue;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
   font-size: 1.2rem;
   font-weight: 400;
-  text-decoration: underline;
   color: red;
   position: absolute;
   top: ${props => props.clickedLocation.y - 80 + 'px'};
@@ -180,7 +179,6 @@ const CorrectAnswerPopUp = styled.div`
   border-radius: 10px;
   font-size: 1.2rem;
   font-weight: 400;
-  text-decoration: underline;
   color: green;
   position: absolute;
   top: ${props => props.clickedLocation.y - 80 + 'px'};
