@@ -1,20 +1,35 @@
 import React from "react";
 import styled from "styled-components";
 
-function VictoryPopUp({timer}) {
+function VictoryPopUp({ timer, submitScore }) {
+
+    function handleClick(e) {
+        e.preventDefault();
+        submitScore("jesse", formatTime(timer))
+    }
+
+    function formatTime(timer) {
+        const mins = Math.floor((timer % 3600) / 60);
+        const secs = Math.floor(timer % 60);
+        let time = "";
+
+        time += "" + mins + ":" + (secs < 10 ? "00" : "");
+        time += "" + secs;
+
+        return time;
+    }
+
     return (
         <StyledVictoryPopUp className="header">
-            WITTU VOITIT HYVÄ
-            
-            <span>{("0" + Math.floor(timer / 60) % 60).slice(-2)} : {("0" + timer % 60).slice(-2)}</span>
+            {formatTime(timer)}
             <StyledForm>
                 <label>ANNAHA NIMI</label>
                 <input type="text"></input>
-                <button>
+                <button onClick={(e) => handleClick(e)}>
                     Submit Score
                 </button>
             </StyledForm>
-            
+
         </StyledVictoryPopUp>
     );
 }

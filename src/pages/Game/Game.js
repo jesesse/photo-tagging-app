@@ -1,12 +1,12 @@
 import React from "react";
 import _ from "lodash";
 import styled from 'styled-components';
-import CrossHair from "../../components/Crosshair";
-import CharacterSelectPopUp from "../../components/CharacterSelectPopUp";
 import { useParams } from "react-router-dom";
 import { getDoc, doc, getFirestore } from "firebase/firestore"
 import { getDownloadURL, getStorage, ref } from "firebase/storage";
 import Header from "../../components/Header";
+import CrossHair from "../../components/Crosshair";
+import CharacterSelectPopUp from "../../components/CharacterSelectPopUp";
 import VictoryPopUp from "../../components/VictoryPopUp";
 import CharacterFoundMarker from "../../components/CharacterFoundMarker";
 
@@ -16,7 +16,7 @@ function Game({ app }) {
     const db = getFirestore(app)
 
     const { level } = useParams();
-    const [cursorLocation, setCursorLocation] = React.useState({ x: 1, y: 1 });
+    const [cursorLocation, setCursorLocation] = React.useState({});
     const [clickedLocation, setClickedlocation] = React.useState()
     const [isClicked, setIsClicked] = React.useState(false)
     const [isCharacterSelectPopUpOpen, setIsCharacterSelectPopUpOpen] = React.useState(false)
@@ -26,9 +26,10 @@ function Game({ app }) {
     const [imageURL, setImageURL] = React.useState();
     const [characters, setCharacters] = React.useState();
     const [foundCharacters, setFoundCharacters] = React.useState([])
-    const [guessedCharacter, seGuessedCharacter] = React.useState(null)
+    const [guessedCharacter, setGuessedCharacter] = React.useState(null)
     const [isTimerOn, setIsTimerOn] = React.useState(false)
     const [timer, setTimer] = React.useState(0);
+    const [highScore, setHighScore] = React.useState(null)
 
 
     React.useEffect(() => {
@@ -71,6 +72,11 @@ function Game({ app }) {
         return (url)
     }
 
+    async function submitScore(playerName, time){
+        console.log(playerName);
+        console.log(time)
+    }
+
     function handleClick() {
         if (isClicked) {
             setIsClicked(false)
@@ -84,8 +90,8 @@ function Game({ app }) {
 
     function handleCharacterSelectClick(characterName) {
         characterName.toLowerCase();
-        seGuessedCharacter(characterName)
-        if (checkAnswer(characterName)) {
+        setGuessedCharacter(characterName)
+        if (checkCorrectAnswer(characterName)) {
             setIsCorrectAnswerPopUpOpen(true);
             setTimeout(() => { setIsCorrectAnswerPopUpOpen(false) }, 2000)
             setCharacters(prev => {
@@ -101,7 +107,7 @@ function Game({ app }) {
         setIsCharacterSelectPopUpOpen(false)
     }
 
-    function checkAnswer(characterName) {
+    function checkCorrectAnswer(characterName) {
         const correctCoords = characters[characterName];
         if ((cursorLocation.x < correctCoords.x + 40 && cursorLocation.x > correctCoords.x - 40)
             && (cursorLocation.y < correctCoords.y + 40 && cursorLocation.y > correctCoords.y - 40)) return true;
@@ -138,7 +144,7 @@ function Game({ app }) {
                     <WrongAnswerPopUp clickedLocation={clickedLocation}>No {guessedCharacter} there, try again!</WrongAnswerPopUp>
                 }
                 {isVictoryPopUpOpen &&
-                    <VictoryPopUp timer={timer} />
+                    <VictoryPopUp timer={timer} submitScore={submitScore} />
                 }
                 {foundCharacters.map((char, index) => {
                     return (<CharacterFoundMarker key={index} location={char}></CharacterFoundMarker>)

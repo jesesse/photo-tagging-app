@@ -1,12 +1,23 @@
 import React from "react";
 import styled from "styled-components";
 
-function Header({timer, isTimerOn}) {
+function Header({ timer, isTimerOn }) {
+  
+  function formatTime(timer) {
+    const mins = Math.floor((timer % 3600) / 60);
+    const secs = Math.floor(timer % 60);
+    let time = "";
+
+    time += "" + mins + ":" + (secs < 10 ? "00" : "");
+    time += "" + secs;
+
+    return time;
+  }
+
 
   return (
     <StyledHeader className="header">
-       {isTimerOn && <span> {("0" + Math.floor(timer / 60) % 60).slice(-2)}:</span> }
-       {isTimerOn && <span> {("0" + timer % 60).slice(-2)} </span> }
+      {isTimerOn && formatTime(timer)}
     </StyledHeader>
   );
 }
