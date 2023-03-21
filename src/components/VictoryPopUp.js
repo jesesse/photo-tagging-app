@@ -2,12 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 
-function VictoryPopUp({ timer, submitScore }) {
-    
-
-
+function VictoryPopUp({ timer, submitScore }) {    
     const [playerName, setPlayerName] = React.useState(null)
-
 
     function handleChange(e) {
         setPlayerName(e.target.value)

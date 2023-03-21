@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
 import Header from "../../components/Header";
@@ -49,7 +49,6 @@ function HighScore({ app }) {
                             <LevelName>High Score Level {index + 1}</LevelName>
                         </LevelSelectContainer>)
                 })}
-                
             </LevelSelectWrapper>}
             {!params.level && <StyledLink to="/"> BACK TO LEVEL SELECT</StyledLink>}
 
@@ -82,35 +81,28 @@ function HighScore({ app }) {
 }
 
 const HighScorePage = styled.div`
-                display: flex;
-                flex-flow: column;
-                align-items: center;
-                gap: 50px;
-                min-height: 100vh;
-                background-color: rgb(209, 194, 174);
-                `
-
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    gap: 50px;
+    min-height: 100vh;
+    background-color: rgb(209, 194, 174);
+    `
 const HighScoresContainer = styled.div`
-                display: flex;
-                flex-flow: column;
-                gap: 20px;
-                width: 700px;
-                `
-
-const Score = styled.div`
-                font-size: 2rem;
-                border-bottom: 1px solid black;
-                `
-
+    display: flex;
+    flex-flow: column;
+    gap: 20px;
+    width: 700px;
+    `
 const StyledLink = styled(Link)`
-background-color: aliceblue;
-padding: 20px;
-border-radius: 10px;
-border: 1px solid black;
-margin: 75px;
-text-decoration: none;
-font-size: 2rem;
-text-align: center;
+    background-color: aliceblue;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid black;
+    margin: 75px;
+    text-decoration: none;
+    font-size: 2rem;
+    text-align: center;
 &:visited{
     color: black;
 }
@@ -120,29 +112,20 @@ text-align: center;
 }
 `
 
-const HomePage = styled.div`
-padding-top: 100px;
-display: flex;
-flex-flow: column;
-align-items: center;
-min-height: 100vh;
-background-color: #d1c2ae;
-`
-
 const LevelSelectWrapper = styled.div`
-margin-top: 50px;
-display: flex;
-gap: 50px
+    margin-top: 50px;
+    display: flex;
+    gap: 50px
 `
 
 const LevelSelectContainer = styled(Link)`
-cursor: pointer;
-width: 400px;
-height: 250px;
-display: flex;
-justify-content: center;
-border: 1px solid black;
-position: relative;
+    cursor: pointer;
+    width: 400px;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    border: 1px solid black;
+    position: relative;
 &:hover{
    border: 2px solid black;
    background-color: aliceblue;

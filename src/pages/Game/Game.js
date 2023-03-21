@@ -30,7 +30,6 @@ function Game({ app }) {
     const [guessedCharacter, setGuessedCharacter] = React.useState(null)
     const [isTimerOn, setIsTimerOn] = React.useState(false)
     const [timer, setTimer] = React.useState(0);
-    const [highScore, setHighScore] = React.useState([])
 
 
     React.useEffect(() => {
@@ -130,7 +129,7 @@ function Game({ app }) {
 
 
     return (
-        <GamePage className="GamePAge">
+        <GamePage>
             <Header timer={timer} isTimerOn={isTimerOn}></Header>
             <ImageContainer className="image-container" isClicked={isClicked}>
                 <Image
@@ -147,13 +146,21 @@ function Game({ app }) {
                         handleCharacterSelectClick={handleCharacterSelectClick} />
                 }
                 {isCorrectAnswerPopUpOpen &&
-                    <CorrectAnswerPopUp clickedLocation={clickedLocation}>You found {guessedCharacter}!</CorrectAnswerPopUp>
+                    <CorrectAnswerPopUp
+                        clickedLocation={clickedLocation}>
+                        You found {guessedCharacter}!
+                    </CorrectAnswerPopUp>
                 }
                 {isWrongAnswerPopUpOpen &&
-                    <WrongAnswerPopUp clickedLocation={clickedLocation}>No {guessedCharacter} there, try again!</WrongAnswerPopUp>
+                    <WrongAnswerPopUp
+                        clickedLocation={clickedLocation}>
+                        No {guessedCharacter} there, try again!
+                    </WrongAnswerPopUp>
                 }
                 {isVictoryPopUpOpen &&
-                    <VictoryPopUp timer={timer} submitScore={submitScore} />
+                    <VictoryPopUp
+                        timer={timer}
+                        submitScore={submitScore} />
                 }
                 {foundCharacters.map((char, index) => {
                     return (<CharacterFoundMarker key={index} location={char}></CharacterFoundMarker>)
@@ -162,8 +169,6 @@ function Game({ app }) {
         </GamePage>
     );
 }
-
-
 
 const GamePage = styled.div`
     min-width: 100%;
@@ -205,7 +210,5 @@ const Image = styled.img`
   width: 1920px;
   height: 1080px
 `
-
-
 
 export default Game;
