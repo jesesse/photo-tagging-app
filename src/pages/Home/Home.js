@@ -1,8 +1,8 @@
 import React from "react";
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
-import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
-
+import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage"
+import Header from "../../components/Header";
 function Home({ app }) {
 
     const storage = getStorage(app)
@@ -21,6 +21,7 @@ function Home({ app }) {
 
     return (
         <HomePage>
+            <Header></Header>
             <h1>LEVEL SELECT</h1>
             <LevelSelectWrapper>
                 {imgURLs.map((url, index) => {
@@ -54,7 +55,6 @@ font-size: 2rem;
 `
 
 const HomePage = styled.div`
-padding-top: 100px;
 display: flex;
 flex-flow: column;
 align-items: center;

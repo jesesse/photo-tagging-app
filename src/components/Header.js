@@ -27,6 +27,7 @@ function Header({ timer, isTimerOn }) {
 }
 
 const StyledHeader = styled.div`
+width: 100%;
   background-color: rgba(199, 158, 199, 0.7);
   border: 1px solid black;
   font-size: 2rem;

@@ -84,7 +84,6 @@ const HighScorePage = styled.div`
     display: flex;
     flex-flow: column;
     align-items: center;
-    gap: 50px;
     min-height: 100vh;
     background-color: rgb(209, 194, 174);
     `
