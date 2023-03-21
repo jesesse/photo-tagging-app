@@ -1,21 +1,32 @@
 import React from "react";
 import styled from "styled-components";
 
+
 function VictoryPopUp({ timer, submitScore }) {
+    
+
+
+    const [playerName, setPlayerName] = React.useState(null)
+
+
+    function handleChange(e) {
+        setPlayerName(e.target.value)
+    }
 
     function handleClick(e) {
         e.preventDefault();
-        submitScore("jesse", formatTime(timer))
+        if (playerName === null) return;
+        submitScore(playerName, formatTime(timer))
+        setPlayerName(null)
+       
     }
 
     function formatTime(timer) {
         const mins = Math.floor((timer % 3600) / 60);
         const secs = Math.floor(timer % 60);
         let time = "";
-
-        time += "" + mins + ":" + (secs < 10 ? "00" : "");
+        time += "" + mins + ":" + (secs < 10 ? "0" : "");
         time += "" + secs;
-
         return time;
     }
 
@@ -23,10 +34,15 @@ function VictoryPopUp({ timer, submitScore }) {
         <StyledVictoryPopUp className="header">
             {formatTime(timer)}
             <StyledForm>
-                <label>ANNAHA NIMI</label>
-                <input type="text"></input>
-                <button onClick={(e) => handleClick(e)}>
-                    Submit Score
+                <InputWrapper className="input-wrapper">
+                    <StyledLabel htmlFor="player-name"> ANNAHA NIMI:</StyledLabel>
+                    <input onChange={(e) => handleChange(e)} type="text" id="player-name" name="player-name"></input>
+                </InputWrapper>
+                    <button onClick={(e) => handleClick(e)}>
+                        Submit Score
+                    </button>
+                <button onClick={()=>window.location.reload()}>
+                    Play again
                 </button>
             </StyledForm>
 
@@ -40,7 +56,6 @@ const StyledVictoryPopUp = styled.div`
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  padding: 50px;
   position: fixed;
   width: max-content;
   height: max-content;
@@ -49,6 +64,7 @@ const StyledVictoryPopUp = styled.div`
   top: 0;
   bottom: 0;
   margin: auto;
+  padding: 50px;
   background-color: rgba(199, 158, 199, 1);
   border: 1px solid black;
   border-radius: 10px;
@@ -56,11 +72,23 @@ const StyledVictoryPopUp = styled.div`
   cursor: auto;
 `
 
+const InputWrapper = styled.div`
+justify-content: center;
+align-items: center;
+display: flex;
+flex-flow: column;
+gap: 5px;
+`
+
 const StyledForm = styled.form`
+margin-top: 30px;
   display: flex;
   flex-flow: column;
   justify-content: center;
   align-items: center;
+  gap: 20px;
 `
-
+const StyledLabel = styled.label`
+    font-size: 1rem;
+`
 export default VictoryPopUp;

@@ -7,3 +7,27 @@ body{
     padding: 0;
 }
 
+button{
+    border: 1px solid grey;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+button:hover{
+    cursor: pointer;
+    box-shadow: 0 0 3px black;
+}
+
+table{
+    width: 100%;
+}
+
+th, td {
+    font-size: 2rem;
+    border: 1px solid;
+    padding: 20px;
+  }
+
+.table--time, .table--place{
+    text-align: center;
+}

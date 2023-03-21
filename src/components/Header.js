@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 function Header({ timer, isTimerOn }) {
@@ -8,7 +9,7 @@ function Header({ timer, isTimerOn }) {
     const secs = Math.floor(timer % 60);
     let time = "";
 
-    time += "" + mins + ":" + (secs < 10 ? "00" : "");
+    time += "" + mins + ":" + (secs < 10 ? "0" : "");
     time += "" + secs;
 
     return time;
@@ -17,13 +18,15 @@ function Header({ timer, isTimerOn }) {
 
   return (
     <StyledHeader className="header">
+      <Link to="/">
+        HOME
+      </Link>
       {isTimerOn && formatTime(timer)}
     </StyledHeader>
   );
 }
 
 const StyledHeader = styled.div`
-
   background-color: rgba(199, 158, 199, 0.7);
   border: 1px solid black;
   font-size: 2rem;

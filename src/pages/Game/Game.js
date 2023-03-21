@@ -1,8 +1,8 @@
 import React from "react";
 import _ from "lodash";
 import styled from 'styled-components';
-import { useParams } from "react-router-dom";
-import { getDoc, doc, getFirestore } from "firebase/firestore"
+import { useParams, useNavigate } from "react-router-dom";
+import { getDoc, doc, getFirestore, setDoc, collection } from "firebase/firestore"
 import { getDownloadURL, getStorage, ref } from "firebase/storage";
 import Header from "../../components/Header";
 import CrossHair from "../../components/Crosshair";
@@ -16,6 +16,7 @@ function Game({ app }) {
     const db = getFirestore(app)
 
     const { level } = useParams();
+    let navigate = useNavigate();
     const [cursorLocation, setCursorLocation] = React.useState({});
     const [clickedLocation, setClickedlocation] = React.useState()
     const [isClicked, setIsClicked] = React.useState(false)
@@ -29,7 +30,7 @@ function Game({ app }) {
     const [guessedCharacter, setGuessedCharacter] = React.useState(null)
     const [isTimerOn, setIsTimerOn] = React.useState(false)
     const [timer, setTimer] = React.useState(0);
-    const [highScore, setHighScore] = React.useState(null)
+    const [highScore, setHighScore] = React.useState([])
 
 
     React.useEffect(() => {
@@ -51,7 +52,7 @@ function Game({ app }) {
         return () => clearInterval(interval);
 
     }, [isTimerOn])
-    
+
     React.useEffect(() => {
         if (!(_.size(characters) === 0) && foundCharacters.length === _.size(characters)) {
             setIsTimerOn(false)
@@ -61,7 +62,7 @@ function Game({ app }) {
 
 
     async function getCharacters() {
-        const characterCoordsRef = doc(db, "coordinates", "level1");
+        const characterCoordsRef = doc(db, "coordinates", `level${level}`);
         const characterCoordsSnapshot = await getDoc(characterCoordsRef);
         return characterCoordsSnapshot.data();
     }
@@ -72,9 +73,17 @@ function Game({ app }) {
         return (url)
     }
 
-    async function submitScore(playerName, time){
-        console.log(playerName);
-        console.log(time)
+    async function submitScore(playerName, time) {
+        const highScoresRef = doc(db, "highScores", `level${level}`);
+        const highScoresRefSnapshot = await getDoc(highScoresRef);
+        let scoresObject = highScoresRefSnapshot.data()
+        let scoresArray = scoresObject.scores.concat({
+            name: playerName,
+            time: time
+        })
+        scoresObject.scores = scoresArray;
+        await setDoc(highScoresRef, scoresObject);
+        navigate(`/high-scores/level/${level}`)
     }
 
     function handleClick() {
@@ -121,9 +130,9 @@ function Game({ app }) {
 
 
     return (
-        <GamePage>
+        <GamePage className="GamePAge">
             <Header timer={timer} isTimerOn={isTimerOn}></Header>
-            <ImageContainer isClicked={isClicked}>
+            <ImageContainer className="image-container" isClicked={isClicked}>
                 <Image
                     onMouseMove={(e) => { handleHover(e) }}
                     onClick={() => { handleClick() }}
@@ -157,13 +166,14 @@ function Game({ app }) {
 
 
 const GamePage = styled.div`
+    min-width: 100%;
+    width: min-content;
 `
 
 const ImageContainer = styled.div`
   cursor: ${props => props.isClicked ? 'pointer' : 'none'};
   position: relative;
-  width: min-content;
-  height: min-content;
+
 `
 const WrongAnswerPopUp = styled.div`
   background-color: aliceblue;
@@ -175,7 +185,7 @@ const WrongAnswerPopUp = styled.div`
   color: red;
   position: absolute;
   top: ${props => props.clickedLocation.y - 80 + 'px'};
-  left: ${props => props.clickedLocation.x +  'px'}
+  left: ${props => props.clickedLocation.x + 'px'}
 `
 
 const CorrectAnswerPopUp = styled.div`

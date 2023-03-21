@@ -31,9 +31,27 @@ function Home({ app }) {
                     </LevelSelectContainer>)
                 })}
             </LevelSelectWrapper>
+            <StyledLink to="/high-scores">CHECK HIGH SCORES</StyledLink>
         </HomePage>
     );
 }
+
+const StyledLink = styled(Link)`
+background-color: aliceblue;
+padding: 20px;
+border-radius: 10px;
+border: 1px solid black;
+margin: 75px;
+text-decoration: none;
+font-size: 2rem;
+&:visited{
+    color: black;
+}
+&:hover{
+    box-shadow: 0 0 5px black;
+    background-color: #f0f8ffcf;
+}
+`
 
 const HomePage = styled.div`
 padding-top: 100px;
